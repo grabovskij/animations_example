@@ -42,18 +42,21 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView.separated(
         itemCount: 10,
         separatorBuilder: (context, index) => const SizedBox(height: 16),
-        itemBuilder: (context, index) => CardWidget(
-          title: 'Тестовый заголовок',
-          imageAsset: 'assets/images/salamander.png',
-          animationConfiguration: CardAnimationConfiguration(
-            imageScaleCurve: Theme.of(context).expansionTileTheme.expansionAnimationStyle?.curve ?? Curves.linear,
-            duration: Theme.of(context).expansionTileTheme.expansionAnimationStyle?.duration ??
-                const Duration(milliseconds: 500),
-            reverseDuration: const Duration(seconds: 1),
-          ),
-          otherContent: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(5, (index) => Text('Какой-то текст $index')),
+        itemBuilder: (context, index) => Padding(
+          padding: EdgeInsets.only(top: index == 0 ? 16 : 0),
+          child: CardWidget(
+            title: 'Тестовый заголовок',
+            imageAsset: 'assets/images/salamander.png',
+            animationConfiguration: CardAnimationConfiguration(
+              imageScaleCurve: Theme.of(context).expansionTileTheme.expansionAnimationStyle?.curve ?? Curves.linear,
+              duration: Theme.of(context).expansionTileTheme.expansionAnimationStyle?.duration ??
+                  const Duration(milliseconds: 500),
+              reverseDuration: const Duration(seconds: 1),
+            ),
+            otherContent: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(5, (index) => Text('Какой-то текст $index')),
+            ),
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.

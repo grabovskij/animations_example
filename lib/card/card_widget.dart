@@ -44,17 +44,16 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.black)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InkWell(
-              onTap: () =>
-                  _animationController.isCompleted ? _animationController.reverse() : _animationController.play(),
-              child: Row(
+    return InkWell(
+      onTap: _onTap,
+      child: DecoratedBox(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.black)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -69,32 +68,42 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-            ),
-            SizeTransition(
-              sizeFactor: _animationController.imageScaleAnimation,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    widget.imageAsset,
-                    width: widget.imageSize,
-                    height: widget.imageSize,
-                  ),
-                  if (widget.otherContent != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: SizeTransition(
-                        sizeFactor: _animationController.otherContentScaleAnimation,
-                        axis: Axis.vertical,
-                        child: widget.otherContent,
-                      ),
+              SizeTransition(
+                sizeFactor: _animationController.imageScaleAnimation,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      widget.imageAsset,
+                      width: widget.imageSize,
+                      height: widget.imageSize,
                     ),
-                ],
+                    if (widget.otherContent != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: SizeTransition(
+                          sizeFactor: _animationController.otherContentScaleAnimation,
+                          axis: Axis.vertical,
+                          child: widget.otherContent,
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _onTap() {
+    if (_animationController.isCompleted) {
+      _animationController.reverse();
+
+      return;
+    }
+
+    _animationController.play();
   }
 }
